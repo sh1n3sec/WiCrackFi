@@ -1,5 +1,6 @@
 import os, time, sys, fileinput, subprocess, shlex, os.path, csv
 
+#Setup (updates, installs
 def instal_setup():
 	os.system("clear")
 	print("Installing everything that is required:")
@@ -15,30 +16,31 @@ def instal_setup():
         print("Installing Aircrack-ng...")
         os.system("sudo apt-get install aircrack-ng")
 	time.sleep(1)
-	os.system("git clone https://github.com/secdev/scapy")
-	time.sleep(1)
-	os.system("cd scapy")
-	time.sleep(1)
-	os.system("./run_scapy")
-	print("FINISHED! EVERYTHING THAT IS NEEDED IS INSTALLED! HAVE FUN!")
+	print("FINISHED!")
+	print("EVERYTHING THAT IS NEEDED IS INSTALLED! HAVE FUN!")
 	menu()
 
+#Starts the interface in monitor mode
 def start_monitor_mode():
 	print("Your network interfaces are...")
-	time.sleep(6)
+	#This line is just to make sure there is no bugs, restarts all the connections to run in a fresh environment
+	os.system('service network-manager restart')
+	time.sleep(3)
 	os.system("airmon-ng")
 	time.sleep(.5)
 	os.system("airmon-ng check kill")
 	time.sleep(1)
-	i = raw_input("Enter your network interface ")
+	i = raw_input("Enter your network interface: ")
 	time.sleep(1)
 	command = "airmon-ng start "+i
 	os.system(command)
+	#Saves the interface name in a file to use multiple times in the script later
 	l = open("NODELETE.txt","w")
 	l.write(i+"mon")
 	l.close()
 	time.sleep(1)
-	print("Done")
+	print("DONE!")
+	time.sleep(1)
 	menu()
 
 def clean_indv():
@@ -83,70 +85,55 @@ def networks_arround():
 	time.sleep(1)	
 	l.close()
 	clean_indv()
-		
-	
-def monitor_network():
-	l = open("NODELETE.txt","r")
-	il = l.read()
-	time.sleep(.5)
-	c = raw_input("Enter The Channel of the Network ")
-	time.sleep(.5)
-	bs = raw_input("Enter The MAC addres of the Network ")
-	time.sleep(.5)
-	command = "airodump-ng --bssid "+bs+" -c "+c+" "+il
-	l.close()
-	os.system(command)
 
+#Just to display the saved networks
 def display_networks_available():
-
-	if os.path.exists('WiFi__List-01.csv'):
-		#Prints a table using the import csv with all the ESSID of the networks discouvered
-		print("\n")
-		print("==========================================================")
-		print("|     	List of Available Networks:	 	|")
-		print("==========================================================")
-		n = 1
-		with open('WiFi__List-01.csv') as csvfile:
-			reader = csv.DictReader(csvfile)
-			for row in reader:
-									
-				print("|   "+str(n)+"	|	"+row[' ESSID']+" ")
-
-				n+=1
-
-		print("==========================================================")
-		menu()
-	else:
-		print("THERE IS NO WIFI LIST CREATED..\n")		
-		print("CREATING A NEW WIFI LIST OF THE AVAILABLE NETWORKS ARROUND\n")
-		time.sleep(1)
-		
-		networks_arround()
-	
-def display_handshake():
-
+	#Checks if the file already exists
 	if os.path.exists('WiFi__List-01.csv'):
 		#Prints a table using the import csv with all the ESSID of the networks discouvered
 		print("\n")
 		print("=========================================================")
 		print("|     		List of Available Networks:	 	|")
 		print("=========================================================")
+		#Used to print the lines		
 		n = 1
+		#Opens the csv file in Dictionary mode
 		with open('WiFi__List-01.csv') as csvfile:
 			reader = csv.DictReader(csvfile)
-			for row in reader:
-									
+			for row in reader:									
 				print("|   "+str(n)+"	|	"+row[' ESSID']+" ")
-
 				n+=1
+		print("==========================================================")
+		menu()
+	else:
+		print("THERE IS NO WIFI LIST CREATED..\n")		
+		print("CREATING A NEW WIFI LIST OF THE AVAILABLE NETWORKS ARROUND\n")
+		time.sleep(1)
+		networks_arround()
 
+#This function is similar to the display_networks_available, however do not redirect to the menu()	
+def display_handshake():
+	#Checks if the file already exists
+	if os.path.exists('WiFi__List-01.csv'):
+		#Prints a table using the import csv with all the ESSID of the networks discouvered
+		print("\n")
+		print("=========================================================")
+		print("|		List of Available Networks:	 	|")
+		print("=========================================================")
+		#Used to print the lines		
+		n = 1
+		#Opens the csv file in Dictionary mode
+		with open('WiFi__List-01.csv') as csvfile:
+			reader = csv.DictReader(csvfile)
+			for row in reader:									
+				print("|   "+str(n)+"	|	"+row[' ESSID']+" ")
+				n+=1
 		print("=========================================================")
 		
 	else:
 		print("THERE IS NO WIFI LIST CREATED..\n")		
 		print("CREATING A NEW WIFI LIST OF THE AVAILABLE NETWORKS ARROUND\n")
 		time.sleep(1)
-		
 		networks_arround()
 	
 
@@ -261,9 +248,7 @@ def run_subcommand(command, f):
 	#The while breaks and redirect the user to the cracking function	
 	crack_q()
 
-
-	
-              
+#Simple function to ask the user if he wants to crack the wifi or not            
 def crack_q():
 	try:
 		crack = raw_input("Y/N?: ")
@@ -299,8 +284,7 @@ def menu():
 	print("|   1	|Install all that is required			|")
 	print("|   2	|Start your interface in mon(itor) mode		|")
 	print("|   3	|See all the networks around you		|")
-	print("|   4	|Monitor a Network				|")
-	print("|   5	|Try and capture a Handshake / Deauth Option	|")
+	print("|   4	|Try Handshake / Deauth and Crack the WiFi	|")
 	print("=========================================================")
 
 	try:
@@ -313,9 +297,7 @@ def menu():
 		elif a == "3":
 			display_networks_available()
 		elif a == "4":
-			monitor_network()		
-		elif a == "5":
-			capture_handshake()
+			capture_handshake()		
 		else:
 			print("Please input a possible option.")
 			time.sleep(1)
