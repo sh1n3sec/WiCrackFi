@@ -1,6 +1,6 @@
 import os, time, sys, fileinput, subprocess, shlex, os.path, csv
 
-#Setup (updates, installs
+#Setup (updates and installs)
 def instal_setup():
 	os.system("clear")
 	print("Installing everything that is required:")
