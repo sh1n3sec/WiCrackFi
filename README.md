@@ -1,4 +1,4 @@
-# WiFi-Hacking-Tool
+# WiFi-Hacking-Tool | Python
 
 Python Script to help/automate the WiFi hacking exercises.
 
