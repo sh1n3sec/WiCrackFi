@@ -12,7 +12,7 @@ This tool was developed to automate the process of conducting a PenTest on WiFi 
 
 For this tool to work in the best possible way please follow these instructions:
 
-  	•	Execute Option 2 in the Main Menu").
+  	•	Execute Option 2 in the Main Menu.
 	
   	•	Try to use the tool functionalities, preferably don't clean files manually.
 
