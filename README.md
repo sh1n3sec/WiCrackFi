@@ -1,5 +1,7 @@
 # WiFi-Hacking-Tool | Python
 
+---
+
 **INFO**
 
 Python Script to help/automate the WiFi hacking exercises.
@@ -28,3 +30,6 @@ For this tool to work in the best possible way please follow these instructions:
 	
   	•	This tool is for educational purposes only.
 
+---
+
+Made by Pedro Gomes 2020
