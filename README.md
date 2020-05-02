@@ -32,4 +32,4 @@ For this tool to work in the best possible way please follow these instructions:
 
 ---
 
-Made by Pedro Gomes 2020
+Made by Pedro Gomes, 2020
