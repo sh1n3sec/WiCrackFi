@@ -6,7 +6,7 @@
 
 Python Script to help/automate the WiFi hacking exercises.
 
-No installs needed, the ones needed can be installed inside the tool.
+No extra installs needed, the ones needed can be installed inside the tool.
 
 This tool was developed to automate the process of conducting a PenTest on WiFi Networks with Aircrack-ng in Python.
 
