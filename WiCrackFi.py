@@ -1,12 +1,12 @@
 # ====================================================================================================================
 #                                                   WiCrackFi
+#                                                     v1.1
 #                               WiFi Security Testing Tool Created By Pedro Gomes - 2020
 #                                       Copyright 2020 - All Rights Reserved
 # ====================================================================================================================
 # WiFi Security Testing Tool that automates the use of Aircrack-ng suit and makes testing WiFi Security much easier!
 # ====================================================================================================================
-
-import os, time, sys, fileinput, subprocess, shlex, os.path, csv, datetime
+import os, time, subprocess, shlex, os.path, csv, datetime
 
 
 # Setup (updates and installs)
@@ -37,7 +37,7 @@ def start_monitor_mode():
     os.system('clear')
     print("Your network interfaces are...")
     # This line is just to make sure there is no bugs, restarts all the connections to run in a fresh environment
-    os.system('service network-manager restart')
+    os.system('service networking restart')
     time.sleep(3)
     os.system("airmon-ng")
     time.sleep(.5)
@@ -69,19 +69,13 @@ def start_monitor_mode():
 
 # Clean File
 def clean_indv():
+    os.system("mv configs/WiFi__List-01.csv configs/WiFi__List-00.csv")
     # Cleans all the devices info, only shows the networks available
-    ignore = False
-    for line in fileinput.input('configs/WiFi__List-01.csv', inplace=True):
-        if not ignore:
-            if line.startswith('Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs'):
-                ignore = True
-            else:
-                print(line)
-        # Only executes if the ignore is set to True, which happens when it finds the line.startswith()
-        if ignore and line.isspace():
-            ignore = False
     # Cleans first blank line of the file
-    os.system("sed -i '1d' configs/WiFi__List-01.csv")
+    os.system("sed '/Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs/,$d' "
+              "configs/WiFi__List-00.csv > configs/WiFi__List-01.csv; sed -i '1d' configs/WiFi__List-01.csv")
+
+    os.system("rm -rf configs/WiFi__List-00.csv")
     menu()
 
 
@@ -105,11 +99,16 @@ def networks_arround():
     process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE)
     time.sleep(1)
     while True:
-        # After some testing, 7 seconds is the perfect number between fast process and most networks colected.
-        time.sleep(7)
+        # After some testing, 7 seconds is the perfect number between fast process and most networks collected.
+        for x in range(7, 0, -1):
+            os.system("clear")
+            print ("SCANNING FOR WIFIs | FINISH IN: " + str(x) + "s")
+            time.sleep(1)
+
         process.kill()
         os.system("clear")
         os.system("reset")
+	os.system("clear")
         print("WIFI LIST FILE CREATED!")
         break
 
@@ -132,7 +131,8 @@ def display_networks_available():
         print("|		" + "\033[1m" + "List of Available Networks:" + "\033[0m" + "	 	|")
         print("=========================================================")
         print(
-            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" + "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|")
+                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" +
+                "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|")
         print("=========================================================")
         # Used to print the number of lines
         n = 1
@@ -166,7 +166,7 @@ def display_handshake():
         print("|		" + "\033[1m" + "List of Available Networks:" + "\033[0m" + "	 	|")
         print("=========================================================")
         print(
-            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" + "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|")
+                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" + "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|")
         print("=========================================================")
         # Used to print the number of lines
         n = 1
@@ -453,7 +453,7 @@ def selectwordlist(option):
         print("|	   " + "\033[1m" + "List of Saved Wordlists:" + "\033[0m" + "	 		|")
         print("=========================================================")
         print(
-            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	         " + "\033[1m" + "Wordlist Name" + "\033[0m" + "			|")
+                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	         " + "\033[1m" + "Wordlist Name" + "\033[0m" + "			|")
         print("=========================================================")
         # Used to print the number of lines
         n = 1
@@ -466,8 +466,11 @@ def selectwordlist(option):
         print("=========================================================")
         if option == 1:
             selected_wordlists_crack()
-        else:
+        elif option == 0:
             selected_wordlists_append()
+        else:
+            print("Error? Rewinding... :)")
+            wordlist()
     else:
         print("No Saved Wordlists.")
         time.sleep(1)
@@ -487,12 +490,12 @@ def selected_wordlists_append():
                 count += 1
 
         # Next line is because the networks file is created with a first line (info)
-        count = count - 1
+        count -= 1
 
         # Checks if the number typed by the user is correct (inside the range of networks available)
-        if 1 <= int(swrdlist) <= (count):
+        if 1 <= int(swrdlist) <= count:
 
-            # Opens the 4WHS network list file and creates an object/array for later be used
+            # Opens the wordlist file and creates an object/array for later be used
             fil = open("configs/wordlist_list.csv")
             swrd = list(csv.reader(fil))
 
@@ -562,13 +565,16 @@ def selected_wordlists_crack():
 def appendwords(bs):
     # rockyou.txt link
     # https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz
-    # rockyou dir: /usr/share/wordlists/rockyou.txt
+    # rockyou kali normal dir: /usr/share/wordlists/rockyou.txt
     print("By default the wordlist used is /usr/share/wordlists/rockyou.txt")
     print("All words you type here will be appended to rockyou.txt.\n")
     print("If you don't have the rockyou.txt wordlist go to:")
     print("https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz\n")
     print("If you would like to add more than 1 word at the same time, we sugest you")
     print("to go directly to the rockyou.txt file and add everything you would like.\n")
+
+    print(bs)
+
     try:
         aw = raw_input("Type only 1 word you would like to add (no spaces): ")
 
@@ -583,7 +589,7 @@ def appendwords(bs):
     except:
         print("Error, couldn't add new word.")
         time.sleep(1)
-        appendwords()
+        appendwords(bs)
 
 
 # Add a new wordlist
@@ -595,7 +601,8 @@ def addwordlist():
 
         file_name = "configs/wordlist_list.csv"
 
-        # Creates a wordlist file to store saved wordlists if it doesn't exist already and writes the header and the default wordlist used in this tool
+        # Creates a wordlist file to store saved wordlists if it doesn't exist already and writes the
+        # header and the default wordlist used in this tool
         if os.path.exists('configs/wordlist_list.csv') == False:
             # Open file in write mode
             with open(file_name, 'w') as write_obj:
@@ -635,7 +642,7 @@ def cracknow(wrdlistname):
         print("|	   " + "\033[1m" + "List of Available Networks to Crack:" + "\033[0m" + "	 	|")
         print("=========================================================")
         print(
-            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	              " + "\033[1m" + "DIR" + "\033[0m" + "			|")
+                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	              " + "\033[1m" + "DIR" + "\033[0m" + "			|")
         print("=========================================================")
         # Used to print the lines
         n = 1
@@ -770,7 +777,7 @@ def show_passlist():
         print("|	   		  " + "\033[1m" + "List of Saved WiFi Passwords:" + "\033[0m" + "	 			|")
         print("=================================================================================")
         print(
-            "|        " + "\033[1m" + "DATE" + "\033[0m" + "	      |      " + "\033[1m" + "ESSID" + "\033[0m" + "	|        " + "\033[1m" + "BSSID" + "\033[0m" + "        |    " + "\033[1m" + "PASSWORD" + "\033[0m" + "   	|")
+                "|        " + "\033[1m" + "DATE" + "\033[0m" + "	      |      " + "\033[1m" + "ESSID" + "\033[0m" + "	|        " + "\033[1m" + "BSSID" + "\033[0m" + "        |    " + "\033[1m" + "PASSWORD" + "\033[0m" + "   	|")
         print("=================================================================================")
 
         # Opens the csv file in Dictionary mode
@@ -871,6 +878,7 @@ def info_page():
     menu()
 
 
+
 # Main Menu
 def menu():
     print("")
@@ -887,6 +895,7 @@ def menu():
     print("|   6	|Cracking Menu / Wordlist Menu			|")
     print("|   99	|Exit 						|")
     print("=========================================================")
+    
 
     try:
         a = raw_input("Type your option: ")
@@ -917,5 +926,13 @@ def menu():
         time.sleep(1)
         menu()
 
-
+# coding=utf-8
+print(r"""    
+ __      ______________                       __   ______________ 
+/  \    /  \__\_   ___ \____________    ____ |  | _\_   _____/|__|
+\   \/\/   /  /    \  \/\_  __ \__  \ _/ ___\|  |/ /|    __)  |  |
+ \        /|  \     \____|  | \// __ \\  \___|    < |     \   |  |
+  \__/\  / |__|\______  /|__|  (____  /\___  >__|_ \\___  /   |__|
+       \/             \/            \/     \/     \/    \/        
+    """)
 menu()
