@@ -1,6 +1,10 @@
 # WiCrackFi - WiFi-Hacking-Tool | Python
 
 ---
+### **IF YOU USE THIS PROJECT/TOOL FOR ANY TYPE OF WORK JUST MAKE SURE TO REFERENCE IT, I'M HAPPY TO HELP ON ANY QUESTION ABOUT IT!**
+### **TELL YOUR HACKER FRIENDS ABOUT THIS TOOL! THANK YOU!**
+
+![alt text](https://i.imgur.com/csdMjBj.png)
 
 ### **INFO**
 
@@ -36,6 +40,15 @@ For this tool to work in the best possible way please follow these instructions:
   	•	This tool uses rockyou.txt wordlist to do cracking by default, but you can use your own.
 	
   	•	This tool is for educational purposes only.
+
+### **TO DO LIST**
+* Migrate entire tool to Python 3.
+* Add dynamic tables (Maybe PrettyTable Library).
+* Create an option for full automation (Monitor, Get 4WHS, Decrypt) in one go.
+* Many more to come...
+
+
+
 
 ---
 
