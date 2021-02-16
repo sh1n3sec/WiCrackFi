@@ -44,7 +44,7 @@ def start_monitor_mode():
     # Debugs
     os.system("airmon-ng check kill")
     time.sleep(.5)
-    i = raw_input("Enter your network interface: ")
+    i = input("Enter your network interface: ")
     time.sleep(.5)
     os.system("airmon-ng stop " + i + "mon")
     time.sleep(.5)
@@ -54,7 +54,7 @@ def start_monitor_mode():
     # Debugs
     os.system("airmon-ng check kill")
     # Creates a dir to store all the config files (more organized)
-    if os.path.exists('configs') == False:
+    if os.path.exists('../configs') == False:
         os.system("mkdir configs")
     # Saves the interface name in a file to use multiple times in the script later
     l = open("configs/NODELETE.txt", "w")
@@ -85,7 +85,7 @@ def networks_arround():
     il = l.read()
     time.sleep(.5)
     # Creates a dir to store all the config files (more organized)
-    if os.path.exists('configs') == False:
+    if os.path.exists('../configs') == False:
         os.system("mkdir configs")
 
     # Check if exists any older file and if yes removes it
@@ -102,13 +102,13 @@ def networks_arround():
         # After some testing, 7 seconds is the perfect number between fast process and most networks collected.
         for x in range(7, 0, -1):
             os.system("clear")
-            print ("SCANNING FOR WIFIs | FINISH IN: " + str(x) + "s")
+            print(("SCANNING FOR WIFIs | FINISH IN: " + str(x) + "s"))
             time.sleep(1)
 
         process.kill()
         os.system("clear")
         os.system("reset")
-	os.system("clear")
+        os.system("clear")
         print("WIFI LIST FILE CREATED!")
         break
 
@@ -121,18 +121,18 @@ def networks_arround():
 def display_networks_available():
     os.system("clear")
     # Creates a dir to store all the config files (more organized)
-    if os.path.exists('configs') == False:
+    if os.path.exists('../configs') == False:
         os.system("mkdir configs")
     # Checks if the file already exists
     if os.path.exists('configs/WiFi__List-01.csv'):
         # Prints a table using the import csv with all the ESSID of the networks discouvered
         print("")
         print("=========================================================")
-        print("|		" + "\033[1m" + "List of Available Networks:" + "\033[0m" + "	 	|")
+        print(("|		" + "\033[1m" + "List of Available Networks:" + "\033[0m" + "	 	|"))
         print("=========================================================")
-        print(
-                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" +
-                "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|")
+        print((
+            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" +
+            "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|"))
         print("=========================================================")
         # Used to print the number of lines
         n = 1
@@ -140,7 +140,7 @@ def display_networks_available():
         with open('configs/WiFi__List-01.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print("|   " + str(n) + "	|	" + row['BSSID'] + "	|    " + row[' ESSID'] + " ")
+                print(("|   " + str(n) + "	|	" + row['BSSID'] + "	|    " + row[' ESSID'] + " "))
                 n += 1
         print("==========================================================")
         menu()
@@ -156,17 +156,17 @@ def display_networks_available():
 def display_handshake():
     os.system("clear")
     # Creates a dir to store all the config files (more organized)
-    if os.path.exists('configs') == False:
+    if os.path.exists('../configs') == False:
         os.system("mkdir configs")
     # Checks if the file already exists
     if os.path.exists('configs/WiFi__List-01.csv'):
         # Prints a table using the import csv with all the ESSID of the networks discouvered
         print("")
         print("=========================================================")
-        print("|		" + "\033[1m" + "List of Available Networks:" + "\033[0m" + "	 	|")
+        print(("|		" + "\033[1m" + "List of Available Networks:" + "\033[0m" + "	 	|"))
         print("=========================================================")
-        print(
-                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" + "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|")
+        print((
+            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	     " + "\033[1m" + "BSSID" + "\033[0m" + "		|	" + "\033[1m" + "ESSID" + "\033[0m" + "	|"))
         print("=========================================================")
         # Used to print the number of lines
         n = 1
@@ -174,7 +174,7 @@ def display_handshake():
         with open('configs/WiFi__List-01.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print("|   " + str(n) + "	|	" + row['BSSID'] + "	|    " + row[' ESSID'] + " ")
+                print(("|   " + str(n) + "	|	" + row['BSSID'] + "	|    " + row[' ESSID'] + " "))
                 n += 1
         print("=========================================================")
 
@@ -192,7 +192,7 @@ def capture_handshake():
     display_handshake()
 
     try:
-        network = raw_input("Input the number of the Network you want to try a Handshake: ")
+        network = input("Input the number of the Network you want to try a Handshake: ")
 
         # Count how many networks exists
         file_name = "configs/WiFi__List-01.csv"
@@ -211,9 +211,9 @@ def capture_handshake():
             il = l.read()
             time.sleep(.5)
 
-            f = raw_input("Name of the file that will be generated by airodump-ng: ")
+            f = input("Name of the file that will be generated by airodump-ng: ")
 
-            dea = raw_input("How many times do you want to deauthenticate the users: ")
+            dea = input("How many times do you want to deauthenticate the users: ")
 
             # Opens the WiFi list file and creates an object/array for later be used
             fil = open("configs/WiFi__List-01.csv")
@@ -304,9 +304,9 @@ def run_subcommand(command, f, airmondir, deauth_net):
             os.system("reset")
             os.system("clear")
             print("=========================================================")
-            print("|		   " + "\033[1m" + "HANDSHAKE ACHIEVED!" + "\033[0m" + "			|")
+            print(("|		   " + "\033[1m" + "HANDSHAKE ACHIEVED!" + "\033[0m" + "			|"))
             print("=========================================================")
-            print("|On File: " + airmondir + "/" + f + "-01.cap	 |")
+            print(("|On File: " + airmondir + "/" + f + "-01.cap	 |"))
             print("=========================================================\n")
             print("Do you want to crack this network now?")
             break
@@ -336,7 +336,7 @@ def crack_q(f, airmondir):
         write_obj.close()
 
     try:
-        crack = raw_input("Y/N?: ").lower()
+        crack = input("Y/N?: ").lower()
         if crack.startswith('y'):
             os.system("clear")
             crack_wifi()
@@ -359,7 +359,7 @@ def crack_wifi():
     ##AIRCRACK MENU
     print("")
     print("=========================================================")
-    print("|		    " + "\033[1m" + "CRACKING MENU" + "\033[0m" + "			|")
+    print(("|		    " + "\033[1m" + "CRACKING MENU" + "\033[0m" + "			|"))
     print("=========================================================")
     print("|   1	|Crack a saved 4WHS Network			|")
     print("|   2	|Wordlist Menu					|")
@@ -368,7 +368,7 @@ def crack_wifi():
     print("=========================================================")
 
     try:
-        cw = raw_input("Type your option: ")
+        cw = input("Type your option: ")
 
         if cw == "1":
             os.system("clear")
@@ -397,7 +397,7 @@ def wordlist():
     os.system("clear")
     print("")
     print("=========================================================")
-    print("|		   " + "\033[1m" + "WORDLIST MENU" + "\033[0m" + "			|")
+    print(("|		   " + "\033[1m" + "WORDLIST MENU" + "\033[0m" + "			|"))
     print("=========================================================")
     print("|   1	|Append your desired words to a wordlist	|")
     print("|   2	|Save a new directory of your wordlist		|")
@@ -405,7 +405,7 @@ def wordlist():
     print("=========================================================")
 
     try:
-        cw = raw_input("Type your option: ")
+        cw = input("Type your option: ")
 
         if cw == "1":
             os.system("clear")
@@ -432,7 +432,7 @@ def wordlist():
 def selectwordlist(option):
     os.system("clear")
     # Creates a dir to store all the config files (more organized)
-    if os.path.exists('configs') == False:
+    if os.path.exists('../configs') == False:
         os.system("mkdir configs")
 
     file_name = "configs/wordlist_list.csv"
@@ -450,10 +450,10 @@ def selectwordlist(option):
         # Prints a table using the import csv with all the ESSID of the networks discouvered
         print("")
         print("=========================================================")
-        print("|	   " + "\033[1m" + "List of Saved Wordlists:" + "\033[0m" + "	 		|")
+        print(("|	   " + "\033[1m" + "List of Saved Wordlists:" + "\033[0m" + "	 		|"))
         print("=========================================================")
-        print(
-                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	         " + "\033[1m" + "Wordlist Name" + "\033[0m" + "			|")
+        print((
+            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	         " + "\033[1m" + "Wordlist Name" + "\033[0m" + "			|"))
         print("=========================================================")
         # Used to print the number of lines
         n = 1
@@ -461,7 +461,7 @@ def selectwordlist(option):
         with open('configs/wordlist_list.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print("|   " + str(n) + "	|    " + row['NAME'] + "		|")
+                print(("|   " + str(n) + "	|    " + row['NAME'] + "		|"))
                 n += 1
         print("=========================================================")
         if option == 1:
@@ -480,7 +480,7 @@ def selectwordlist(option):
 # Select the wordlist the user wnats to add a new (own) word to the tool
 def selected_wordlists_append():
     try:
-        swrdlist = raw_input("Select which Wordlist you want to use: ")
+        swrdlist = input("Select which Wordlist you want to use: ")
 
         # Count how many networks exists
         file_name = "configs/wordlist_list.csv"
@@ -522,7 +522,7 @@ def selected_wordlists_append():
 # Select the wordlist the user wants to use to crack the wifi
 def selected_wordlists_crack():
     try:
-        swrdlist = raw_input("Select which Wordlist you want to use: ")
+        swrdlist = input("Select which Wordlist you want to use: ")
 
         # Count how many networks exists
         file_name = "configs/wordlist_list.csv"
@@ -576,7 +576,7 @@ def appendwords(bs):
     print(bs)
 
     try:
-        aw = raw_input("Type only 1 word you would like to add (no spaces): ")
+        aw = input("Type only 1 word you would like to add (no spaces): ")
 
         # Append on the first line the word typed by the user on the rockyou.txt file
         os.system("sed '1 i " + aw + "' -i " + bs + "")
@@ -597,7 +597,7 @@ def addwordlist():
     os.system("clear")
     print("Type the FULL directory of your wordlist.\n")
     try:
-        savewrdlist = raw_input("FULL Directory (eg: /usr/share/wordlists/rockyou.txt): ")
+        savewrdlist = input("FULL Directory (eg: /usr/share/wordlists/rockyou.txt): ")
 
         file_name = "configs/wordlist_list.csv"
 
@@ -639,10 +639,10 @@ def cracknow(wrdlistname):
         # Prints a table using the import csv with all the Directories of the networks that colected a 4WHS
         print("")
         print("=========================================================")
-        print("|	   " + "\033[1m" + "List of Available Networks to Crack:" + "\033[0m" + "	 	|")
+        print(("|	   " + "\033[1m" + "List of Available Networks to Crack:" + "\033[0m" + "	 	|"))
         print("=========================================================")
-        print(
-                "|   " + "\033[1m" + "No" + "\033[0m" + "	|	              " + "\033[1m" + "DIR" + "\033[0m" + "			|")
+        print((
+            "|   " + "\033[1m" + "No" + "\033[0m" + "	|	              " + "\033[1m" + "DIR" + "\033[0m" + "			|"))
         print("=========================================================")
         # Used to print the lines
         n = 1
@@ -650,7 +650,7 @@ def cracknow(wrdlistname):
         with open('configs/cracks_list.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print("|   " + str(n) + "	|    " + row['DIR'] + "	|")
+                print(("|   " + str(n) + "	|    " + row['DIR'] + "	|"))
                 n += 1
         print("=========================================================")
         selected_crack(wrdlistname)
@@ -663,7 +663,7 @@ def cracknow(wrdlistname):
 # Crack the wifi
 def selected_crack(wrdlistname):
     try:
-        cwif = raw_input("Select which Network you want to crack: ")
+        cwif = input("Select which Network you want to crack: ")
 
         # Count how many networks exists
         file_name = "configs/cracks_list.csv"
@@ -745,12 +745,12 @@ def selected_crack(wrdlistname):
             os.system("clear")
             print("")
             print("=========================================================")
-            print("|		    " + "\033[1m" + "PASSWORD FOUND!" + "\033[0m" + "			|")
+            print(("|		    " + "\033[1m" + "PASSWORD FOUND!" + "\033[0m" + "			|"))
             print("=========================================================")
-            print("|		" + "\033[1m" + "DATE: " + datet + " " + "\033[0m" + "			|")
-            print("|		" + "\033[1m" + "ESSID: " + essid + " " + "\033[0m" + "			|")
-            print("|		" + "\033[1m" + "BSSID: " + bssid + " " + "\033[0m" + "		|")
-            print("|		" + "\033[1m" + "PASSWORD: " + pssw + " " + "\033[0m" + "			|")
+            print(("|		" + "\033[1m" + "DATE: " + datet + " " + "\033[0m" + "			|"))
+            print(("|		" + "\033[1m" + "ESSID: " + essid + " " + "\033[0m" + "			|"))
+            print(("|		" + "\033[1m" + "BSSID: " + bssid + " " + "\033[0m" + "		|"))
+            print(("|		" + "\033[1m" + "PASSWORD: " + pssw + " " + "\033[0m" + "			|"))
             print("=========================================================")
 
             menu()
@@ -774,18 +774,18 @@ def show_passlist():
         # Prints a table using the import csv with the ESSID, BSSID and Passwords of the passwords discouvered
         print("")
         print("=================================================================================")
-        print("|	   		  " + "\033[1m" + "List of Saved WiFi Passwords:" + "\033[0m" + "	 			|")
+        print(("|	   		  " + "\033[1m" + "List of Saved WiFi Passwords:" + "\033[0m" + "	 			|"))
         print("=================================================================================")
-        print(
-                "|        " + "\033[1m" + "DATE" + "\033[0m" + "	      |      " + "\033[1m" + "ESSID" + "\033[0m" + "	|        " + "\033[1m" + "BSSID" + "\033[0m" + "        |    " + "\033[1m" + "PASSWORD" + "\033[0m" + "   	|")
+        print((
+            "|        " + "\033[1m" + "DATE" + "\033[0m" + "	      |      " + "\033[1m" + "ESSID" + "\033[0m" + "	|        " + "\033[1m" + "BSSID" + "\033[0m" + "        |    " + "\033[1m" + "PASSWORD" + "\033[0m" + "   	|"))
         print("=================================================================================")
 
         # Opens the csv file in Dictionary mode
         with open('configs/passlist.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print("|  " + row['DATE'] + "   |   " + row['ESSID'] + "  |  " + row['BSSID'] + "  |   " + row[
-                    'PASSWORD'] + "	|")
+                print(("|  " + row['DATE'] + "   |   " + row['ESSID'] + "  |  " + row['BSSID'] + "  |   " + row[
+                    'PASSWORD'] + "	|"))
 
         print("=================================================================================")
         crack_wifi()
@@ -800,7 +800,7 @@ def clean_options():
     os.system("clear")
     print("")
     print("=========================================================")
-    print("|		    " + "\033[1m" + "CLEAN FILES MENU" + "\033[0m" + "			|")
+    print(("|		    " + "\033[1m" + "CLEAN FILES MENU" + "\033[0m" + "			|"))
     print("=========================================================")
     print("|   1	|Clean Outdated WiFi Networks List		|")
     print("|   2	|Clean all Airodump-ng Files			|")
@@ -810,7 +810,7 @@ def clean_options():
     print("=========================================================")
 
     try:
-        cf = raw_input("Type your option: ")
+        cf = input("Type your option: ")
 
         if cf == "1":
             os.system("rm -rf configs/WiFi__List-01.csv")
@@ -855,36 +855,36 @@ def clean_options():
 def info_page():
     os.system("clear")
     print("")
-    print("\033[31m" + "\033[1m" + "	    WIFI HACKING - AUTOMATING SCRIPT" + "\033[0m")
+    print(("\033[31m" + "\033[1m" + "	    WIFI HACKING - AUTOMATING SCRIPT" + "\033[0m"))
     print("=========================================================")
-    print("|	   " + "\033[1m" + "INFO | INSTRUCTIONS | DISCLAIMERS" + "\033[0m" + "		|")
+    print(("|	   " + "\033[1m" + "INFO | INSTRUCTIONS | DISCLAIMERS" + "\033[0m" + "		|"))
     print("=========================================================")
-    print("\033[1m" + "INFO\n" + "\033[0m")
+    print(("\033[1m" + "INFO\n" + "\033[0m"))
     print("This tool was developed to automate the process of conducting")
     print("a PenTest on WiFi Networks with Aircrack-ng in Python.\n")
-    print("\033[1m" + "INSTRUCTIONS\n" + "\033[0m")
+    print(("\033[1m" + "INSTRUCTIONS\n" + "\033[0m"))
     print("For this tool to work in the best possible way")
     print("please follow these instructions:")
     print("		- Execute Option 2 in the Main Menu.")
     print("		- Try to use the tool functionalities, ")
     print("		    preferably don't clean files manually.\n")
-    print("\033[1m" + "DISCLAIMERS\n" + "\033[0m")
+    print(("\033[1m" + "DISCLAIMERS\n" + "\033[0m"))
     print("-This tool was tested/created in a fully updated Kali Linux")
     print("		Virtual Machine (VMWare).")
     print("-Aircrack-ng need to be installed (Option 1 in Main Menu).")
     print("-WiFi Card used to run in monitor mode was an ALFA AWUS036NHA.")
     print("-This tool uses rockyou.txt wordlist to do cracking by default.")
     print("-This tool is for educational purposes only.\n")
+    print("-this tool  was create by ShineZex")
     menu()
-
 
 
 # Main Menu
 def menu():
     print("")
-    print("\033[31m" + "\033[1m" + "	    WIFI HACKING - AUTOMATING SCRIPT" + "\033[0m")
+    print(("\033[31m" + "\033[1m" + "	    WIFI HACKING - AUTOMATING SCRIPT" + "\033[0m"))
     print("=========================================================")
-    print("|		    " + "\033[1m" + "AVAILABLE OPTIONS:" + "\033[0m" + "			|")
+    print(("|		    " + "\033[1m" + "AVAILABLE OPTIONS:" + "\033[0m" + "			|"))
     print("=========================================================")
     print("|   0	|Informations, Instructions and Disclaimers	|")
     print("|   1	|Install all that is required			|")
@@ -895,10 +895,9 @@ def menu():
     print("|   6	|Cracking Menu / Wordlist Menu			|")
     print("|   99	|Exit 						|")
     print("=========================================================")
-    
 
     try:
-        a = raw_input("Type your option: ")
+        a = input("Type your option: ")
 
         if a == "0":
             info_page()
@@ -925,6 +924,7 @@ def menu():
         print("Please input a possible option.")
         time.sleep(1)
         menu()
+
 
 # coding=utf-8
 print(r"""    
