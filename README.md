@@ -37,14 +37,15 @@ For this tool to work in the best possible way please follow these instructions:
 	
   	•	WiFi Card used to run in monitor mode was an ALFA AWUS036NHA.
 	
-  	•	This tool uses rockyou.txt wordlist to do cracking by default, but you can use your own.
+  	•	This tool uses rockyou.txt wordlist to do the cracking by default, but you can use your own. (Keep in mind that you need to use the .txt file and not the .txt.tar.gz file, "gunzip rockyou.txt.tar.gz" to get the .txt wordlist).
 	
   	•	This tool is for educational purposes only.
 
 ### **TO DO LIST**
-* Migrate entire tool to Python 3.
+* Migrate entire tool to Python 3. (DONE)
 * Add dynamic tables (Maybe PrettyTable Library).
 * Create an option for full automation (Monitor, Get 4WHS, Decrypt) in one go.
+* Add more than 1 word per entry to wordlist.
 * Many more to come...
 
 
