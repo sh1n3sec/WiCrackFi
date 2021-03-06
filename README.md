@@ -42,7 +42,7 @@ For this tool to work in the best possible way please follow these instructions:
   	•	This tool is for educational purposes only.
 
 ### **TO DO LIST**
-* Migrate entire tool to Python 3. (DONE)
+* Migrate entire tool to Python 3. (DONE in v1.1)
 * Add dynamic tables (Maybe PrettyTable Library).
 * Create an option for full automation (Monitor, Get 4WHS, Decrypt) in one go.
 * Add more than 1 word per entry to wordlist.
