@@ -2,7 +2,7 @@
 #                                                   WiCrackFi
 #                                                     v1.2
 #                           WiFi Security Testing Tool Created By Pedro "ShineZex" Gomes
-#                                       Copyright 2020 - All Rights Reserved
+#                                       Copyright 2021 - All Rights Reserved
 # ====================================================================================================================
 # WiFi Security Testing Tool that automates the use of Aircrack-ng suit and makes testing WiFi Security much easier!
 # ====================================================================================================================
